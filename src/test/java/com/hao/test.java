@@ -80,7 +80,7 @@ public class test {
         }
     }
     @Test
-    public void completTask(){
+    public void completeTask(){
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
         TaskService taskService = processEngine.getTaskService();
         Task task = taskService.createTaskQuery()
