@@ -1,6 +1,8 @@
 package com.hao;
 
 import org.activiti.engine.*;
+import org.activiti.engine.history.HistoricActivityInstance;
+import org.activiti.engine.history.HistoricActivityInstanceQuery;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
@@ -94,5 +96,26 @@ public class test {
         System.out.println("任务名称="+task.getName());
 //        完成任务
         taskService.complete(task.getId());
+    }
+
+    /**
+     * 查看历史信息
+     */
+    @Test
+    public void findHistoryInfo(){
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        HistoryService historyService = processEngine.getHistoryService();
+        HistoricActivityInstanceQuery historicActivityInstanceQuery = historyService.createHistoricActivityInstanceQuery();
+//        historicActivityInstanceQuery.processInstanceId("7501");
+        historicActivityInstanceQuery.processDefinitionId("myEvection:1:5004");
+        historicActivityInstanceQuery.orderByHistoricActivityInstanceStartTime().asc();
+        List<HistoricActivityInstance> activityInstanceList = historicActivityInstanceQuery.list();
+        for(HistoricActivityInstance hi:activityInstanceList){
+            System.out.println(hi.getActivityId());
+            System.out.println(hi.getActivityName());
+            System.out.println(hi.getProcessDefinitionId());
+            System.out.println(hi.getProcessInstanceId());
+            System.out.println("<==========================>");
+        }
     }
 }
